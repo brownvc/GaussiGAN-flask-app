@@ -1,0 +1,13 @@
+name: gaussigan_flask
+channels:
+  - hcc
+  - defaults
+dependencies:
+  - python=3.7.11
+  - pip=21.2.2
+  - flask=1.1.2
+  - pillow=8.4.0
+  - tensorflow=1.15.0
+  - hcc::tensorpack=0.11
+  - pip:
+    - opencv-python

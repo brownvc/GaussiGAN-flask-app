@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>3D Gaussian Reconstruction from Unposed Silhouettes for Conditional Image Generation</title>
+<link rel="stylesheet" type="text/css" href="../static/style/stylesheet.css">
+<script src="https://unpkg.com/mathjs@8.0.1/lib/browser/math.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        var num_gaussians = {{ num_gaussians }};
+        var model_list = {{ model_list }};
+    </script>
+    <script type="module" src="{{ url_for('static', filename='scripts/interactive.js') }}"></script>
+
+    <div id="container">
+        <div id="panels">
+            <div id="left-panel">
+                <div id="bg-frame">
+                    <h3>Controls</h3>
+                    <div id="bg-inner-frame">
+                        <canvas height="{{img_shape}}px" width="{{img_shape}}px" id="bg-image">
+                        </canvas>
+                        <div id="gaussians-frame">
+                            <div class="loader-container" style="height: {{img_shape}}px; width: {{img_shape}}px">
+                                <div class="loader"></div>
+                            </div>
+                            <canvas height="{{img_shape}}px" width="{{img_shape}}px" id="gaussians"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="controls-frame">
+                    <div class="controls-row">
+                        <label id="theta-label" style="padding-right: 10px">Camera rotation:</label>
+                        <input id="theta-range" type="range" min="-180" max="180" value="0" step=".1">
+                        <input id="theta-num" type="number" min="-180" max="180" value="0" step=".1">
+                    </div>
+                    <form id="bg-img-form" class="controls-row" onsubmit="return false;">
+                        <input id="bg-img-upload" class="control-button" type=file name="bg_file" accept=".png, .jpeg, .jpg">
+                        <label id="bg-img-upload-label" class="control-button" for="bg-img-upload">Choose custom background</label>
+
+                        <label id="bg-switch" class="switch">
+                            <input id="bg-switch-input" type="checkbox">
+                            <span id="bg-slider" class="slider"></span>
+                        </label>
+                        <label id="bg-switch-label">Draw bounding box</label>
+                    </form>
+                    <div class="controls-row">
+                        <button class="control-button" id="gen-gaussians-button">Sample Gaussians</button>
+                        <button class="control-button" id="gen-mask-button">Generate mask</button>
+                        <button class="control-button" id="sample-z-button">Sample z</button>
+                    </div>
+                    <div class="controls-row">
+                        <button class="control-button" id="gen-texture-button">Generate texture</button>
+                        <button class="control-button" id="gen-mask-and-texture-button">Generate mask and texture</button>
+                        <button class="control-button" id="gen-all-button">Generate all</button>
+                    </div>
+                    <label id="model-select-label" style="padding-right: 10px">Select model:</label>
+                    <select id="model-select">
+                    </select>
+                </div>
+            </div>
+            <div id="right-panel">
+                <div id="output-frame">
+                    <h3>Output</h3>
+
+                    <div id="output-inner-frame">
+                        <div class="loader-container" style="height: {{img_shape}}px; width: {{img_shape}}px">
+                            <div class="loader"></div>
+                        </div>
+                        <div id="mask-frame">
+                            <canvas height="{{img_shape}}px" width="{{img_shape}}px" id="mask"></canvas>
+                        </div>
+                        <canvas height="{{img_shape}}px" width="{{img_shape}}px" id="texture"></canvas>
+                    </div>
+                </div>
+                <div class="controls-frame">
+                    <div class="controls-row">
+                        <label id="mask-switch" class="switch">
+                            <input id="mask-switch-input" type="checkbox">
+                            <span id="mask-slider" class="slider"></span>
+                        </label>
+                        <label id="mask-switch-label">Hide mask</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
