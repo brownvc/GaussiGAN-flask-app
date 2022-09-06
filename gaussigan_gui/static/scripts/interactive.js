@@ -753,9 +753,9 @@ function drag() {
              d3.event.subject.mu3d[1] += scaled_dy;
              break;
          case interact_modes.TRANS_Z:
-             d3.event.subject.mu3d[0] += scaled_dy * Math.sin(camera_y);
-             d3.event.subject.mu3d[2] += scaled_dy * Math.cos(camera_y);
-             break;
+            d3.event.subject.mu3d[0] += scaled_dx + pos_this_x - pos_start_x;
+            d3.event.subject.mu3d[2] += scaled_dy + pos_this_y - pos_start_y;
+            break;
          case interact_modes.ROT:
              var mouse_drag_pix = d3.mouse(gaussians_canvas);
              var mouse_drag_camera = pixelToGaussianSpace(mouse_drag_pix[0], mouse_drag_pix[1]);
@@ -1352,34 +1352,17 @@ function render() {
 
 
 // Key bindings
-d3.select("body").on("keydown", function() {
- // SHIFT
- if (d3.event.keyCode == 16) {
-     cur_interact_mode = interact_modes.TRANS_Z;
- // OPTION
- } else if (d3.event.keyCode == 18) {
-     cur_interact_mode = interact_modes.ROT;
- // 1 key
- } else if (d3.event.keyCode == 49) {
-     cur_interact_mode = interact_modes.SCALE_X;
- // 2 key
- } else if (d3.event.keyCode == 50) {
-     cur_interact_mode = interact_modes.SCALE_Y;
- // 3 key
- } else if (d3.event.keyCode == 51) {
-     cur_interact_mode = interact_modes.SCALE_Z;
- }
-});
-d3.select("body").on("keyup", function() {
- // SHIFT or OPTION
- if (d3.event.keyCode == 16 ||
-     d3.event.keyCode == 18 ||
-     d3.event.keyCode == 49 ||
-     d3.event.keyCode == 50 ||
-     d3.event.keyCode == 51) {
-     cur_interact_mode = interact_modes.TRANS_XY;
- }
-});
+d3.select("body").on("mousedown", function() {
+    //  console.log(d3.event.button);
+   if(d3.event.button == 2 && cur_interact_mode == interact_modes.TRANS_Z){
+      cur_interact_mode = interact_modes.ROT;
+   }else{
+      cur_interact_mode = interact_modes.TRANS_Z;
+   }
+  
+  });
+
+  
 d3.select("body").on("keypress", function() {
  // ENTER
  if (d3.event.keyCode == 13) {
