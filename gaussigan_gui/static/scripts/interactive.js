@@ -173,11 +173,11 @@ function inBbx(e) {
 function bbxMouseDown(e) {
 
  if(e.which != 1){
-     startRotate = true;
+     startRotate = false;
  }
 
  if(e.which == 1){
-     startRotate = false;
+     startRotate = true;
  }
 
  
